@@ -64,10 +64,16 @@ Widget _volumeBar(double? volume, AudioPlayer audioPlayer) {
           size: 32.0,
         ),
       ),
-      Slider(
-        max: 100,
-        value: volume != null ? volume * 100 : 0,
-        onChanged: (value) => audioPlayer.setVolume(value / 100),
+      SizedBox(
+        width: 20,
+      ),
+      SizedBox(
+        width: 125,
+        child: Slider(
+          max: 1,
+          value: volume != null ? volume * 1 : 0,
+          onChanged: (value) => audioPlayer.setVolume(value / 1),
+        ),
       ),
     ],
   );
