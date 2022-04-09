@@ -206,6 +206,7 @@ class _CustomAudioPlayerState extends State<CustomAudioPlayer> {
   Widget build(BuildContext context) {
     return Container(
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
         children: [
           // subtitle
           StreamBuilder<Duration>(
@@ -214,48 +215,53 @@ class _CustomAudioPlayerState extends State<CustomAudioPlayer> {
               return _lyricText(snapshot.data, _lyrics);
             },
           ),
-          // seekbar
-          StreamBuilder<Duration>(
-              stream: _audioPlayer.positionStream,
-              builder: (context, snapshot) {
-                return _seekBar(snapshot.data, _audioPlayer);
-              }),
           // audio controls
-          Stack(
+          Column(
             children: [
+              // seekbar
               StreamBuilder<Duration>(
                   stream: _audioPlayer.positionStream,
                   builder: (context, snapshot) {
-                    return _textPosition(snapshot.data, _audioPlayer);
+                    return _seekBar(snapshot.data, _audioPlayer);
                   }),
-              StreamBuilder<PlayerState>(
-                stream: _audioPlayer.playerStateStream,
-                builder: (context, snapshot) {
-                  final state = snapshot.data;
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      SizedBox(
-                        width: 20,
-                      ),
-                      StreamBuilder<double>(
-                          stream: _audioPlayer.speedStream,
-                          builder: (context, snapshot) {
-                            return _speedBar(snapshot.data, _audioPlayer);
-                          }),
-                      _playerButton(state, _audioPlayer),
-                      SizedBox(
-                        width: 224,
-                        child: StreamBuilder<double>(
-                          stream: _audioPlayer.volumeStream,
-                          builder: (context, snapshot) {
-                            return _volumeBar(snapshot.data, _audioPlayer);
-                          },
-                        ),
-                      )
-                    ],
-                  );
-                },
+              // audio controls
+              Stack(
+                children: [
+                  StreamBuilder<Duration>(
+                      stream: _audioPlayer.positionStream,
+                      builder: (context, snapshot) {
+                        return _textPosition(snapshot.data, _audioPlayer);
+                      }),
+                  StreamBuilder<PlayerState>(
+                    stream: _audioPlayer.playerStateStream,
+                    builder: (context, snapshot) {
+                      final state = snapshot.data;
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          SizedBox(
+                            width: 20,
+                          ),
+                          StreamBuilder<double>(
+                              stream: _audioPlayer.speedStream,
+                              builder: (context, snapshot) {
+                                return _speedBar(snapshot.data, _audioPlayer);
+                              }),
+                          _playerButton(state, _audioPlayer),
+                          SizedBox(
+                            width: 224,
+                            child: StreamBuilder<double>(
+                              stream: _audioPlayer.volumeStream,
+                              builder: (context, snapshot) {
+                                return _volumeBar(snapshot.data, _audioPlayer);
+                              },
+                            ),
+                          )
+                        ],
+                      );
+                    },
+                  ),
+                ],
               ),
             ],
           ),
