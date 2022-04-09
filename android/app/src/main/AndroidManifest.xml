@@ -1,8 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.cerita_rakyat_7">
+    <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="cerita_rakyat_7"
+        android:label="Cerita Rakyat 7"
         android:name="${applicationName}"
+        android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

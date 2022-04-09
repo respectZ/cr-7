@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:flutter/services.dart' show rootBundle;
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
 
 String getDuration(Duration duration) {
   String twoDigits(int i) => i.toString().padLeft(2, '0');
-  return "${twoDigits(duration.inSeconds ~/ 60)}:${twoDigits(duration.inSeconds % 60)}";
+  return "${twoDigits(duration.inSeconds ~/ 60)}:${twoDigits(duration.inSeconds % 60)}:${twoDigits(duration.inMilliseconds % 1000)}";
 }
 
 Widget _lyricText(Duration? duration, Map<Duration, String> lyrics) {
@@ -42,7 +45,8 @@ Widget _speedBar(double? speed, AudioPlayer audioPlayer) {
       });
 }
 
-Widget _volumeBar(double? volume, AudioPlayer audioPlayer) {
+Widget _volumeBar(
+    double? volume, AudioPlayer audioPlayer, BuildContext context) {
   // icon switcher
   IconData icon = Icons.volume_up_rounded;
   if (volume != null && volume <= 0.5) icon = Icons.volume_down_rounded;
@@ -61,14 +65,16 @@ Widget _volumeBar(double? volume, AudioPlayer audioPlayer) {
         },
         child: Icon(
           icon,
-          size: 32.0,
+          size: 24.0,
         ),
       ),
       SizedBox(
-        width: 20,
+        width: 10,
       ),
       SizedBox(
-        width: 125,
+        width: MediaQuery.of(context).size.width * 0.2 >= 225
+            ? 225
+            : MediaQuery.of(context).size.width * 0.2,
         child: Slider(
           max: 1,
           value: volume != null ? volume * 1 : 0,
@@ -224,10 +230,18 @@ class _CustomAudioPlayerState extends State<CustomAudioPlayer> {
   void initState() {
     super.initState();
     _audioPlayer = AudioPlayer();
-    _audioPlayer.setAsset("assets/audio/cinderella.mp3").then((value) {
-      // idk solution for init duration, so play pause
-      _audioPlayer.play();
-      _audioPlayer.pause();
+    // _audioPlayer.setAsset("audio/cinderella.mp3").then((value) {
+    //   // idk solution for init duration, so play pause
+    //   _audioPlayer.play();
+    //   _audioPlayer.pause();
+    // });
+    // Workaround buat fix API 30 keatas, gk bisa langsung load file dari asset
+    rootBundle.load("assets/audio/cinderella.mp3").then((bytes) {
+      final dir = getApplicationDocumentsDirectory().then((dir) {
+        var file = File("${dir.path}/cinderella.mp3");
+        file.writeAsBytesSync(bytes.buffer.asUint8List());
+        _audioPlayer.setFilePath(file.path);
+      });
     });
   }
 
@@ -271,28 +285,29 @@ class _CustomAudioPlayerState extends State<CustomAudioPlayer> {
                     stream: _audioPlayer.playerStateStream,
                     builder: (context, snapshot) {
                       final state = snapshot.data;
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          SizedBox(
-                            width: 20,
-                          ),
-                          StreamBuilder<double>(
-                              stream: _audioPlayer.speedStream,
-                              builder: (context, snapshot) {
-                                return _speedBar(snapshot.data, _audioPlayer);
-                              }),
-                          _playerButton(state, _audioPlayer),
-                          SizedBox(
-                            width: 224,
-                            child: StreamBuilder<double>(
+                      return Container(
+                        margin: EdgeInsets.fromLTRB(12.0, 0.0, 12.0, 0.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            StreamBuilder<double>(
+                                stream: _audioPlayer.speedStream,
+                                builder: (context, snapshot) {
+                                  return _speedBar(snapshot.data, _audioPlayer);
+                                }),
+                            SizedBox(
+                              width: 15,
+                            ),
+                            _playerButton(state, _audioPlayer),
+                            StreamBuilder<double>(
                               stream: _audioPlayer.volumeStream,
                               builder: (context, snapshot) {
-                                return _volumeBar(snapshot.data, _audioPlayer);
+                                return _volumeBar(
+                                    snapshot.data, _audioPlayer, context);
                               },
-                            ),
-                          )
-                        ],
+                            )
+                          ],
+                        ),
                       );
                     },
                   ),
