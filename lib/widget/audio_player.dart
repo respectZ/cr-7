@@ -27,6 +27,52 @@ Widget _seekBar(Duration? duration, AudioPlayer audioPlayer) {
           {audioPlayer.seek(Duration(seconds: value.toInt()))});
 }
 
+Widget _speedBar(double? speed, AudioPlayer audioPlayer) {
+  return DropdownButton<double>(
+      value: speed,
+      items: [0.5, 1.0, 1.5, 2.0, 3.0, 4.0]
+          .map<DropdownMenuItem<double>>((double value) {
+        return DropdownMenuItem<double>(
+          value: value,
+          child: Text(value.toString() + " x"),
+        );
+      }).toList(),
+      onChanged: (value) {
+        audioPlayer.setSpeed(value ?? 1.0);
+      });
+}
+
+Widget _volumeBar(double? volume, AudioPlayer audioPlayer) {
+  // icon switcher
+  IconData icon = Icons.volume_up_rounded;
+  if (volume != null && volume <= 0.5) icon = Icons.volume_down_rounded;
+  if (volume != null && volume == 0.0) icon = Icons.volume_mute_rounded;
+
+  // row
+  return Row(
+    children: [
+      InkWell(
+        onTap: () {
+          if (volume != 0.0) {
+            audioPlayer.setVolume(0.0);
+          } else {
+            audioPlayer.setVolume(1.0);
+          }
+        },
+        child: Icon(
+          icon,
+          size: 32.0,
+        ),
+      ),
+      Slider(
+        max: 100,
+        value: volume != null ? volume * 100 : 0,
+        onChanged: (value) => audioPlayer.setVolume(value / 100),
+      ),
+    ],
+  );
+}
+
 Widget _textPosition(Duration? duration, AudioPlayer audioPlayer) {
   return Container(
     margin: EdgeInsets.fromLTRB(12.0, 0.0, 12.0, 0.0),
@@ -161,17 +207,20 @@ class _CustomAudioPlayerState extends State<CustomAudioPlayer> {
     return Container(
       child: Column(
         children: [
+          // subtitle
           StreamBuilder<Duration>(
             stream: _audioPlayer.positionStream,
             builder: (context, snapshot) {
               return _lyricText(snapshot.data, _lyrics);
             },
           ),
+          // seekbar
           StreamBuilder<Duration>(
               stream: _audioPlayer.positionStream,
               builder: (context, snapshot) {
                 return _seekBar(snapshot.data, _audioPlayer);
               }),
+          // audio controls
           Stack(
             children: [
               StreamBuilder<Duration>(
@@ -184,9 +233,26 @@ class _CustomAudioPlayerState extends State<CustomAudioPlayer> {
                 builder: (context, snapshot) {
                   final state = snapshot.data;
                   return Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
+                      SizedBox(
+                        width: 20,
+                      ),
+                      StreamBuilder<double>(
+                          stream: _audioPlayer.speedStream,
+                          builder: (context, snapshot) {
+                            return _speedBar(snapshot.data, _audioPlayer);
+                          }),
                       _playerButton(state, _audioPlayer),
+                      SizedBox(
+                        width: 224,
+                        child: StreamBuilder<double>(
+                          stream: _audioPlayer.volumeStream,
+                          builder: (context, snapshot) {
+                            return _volumeBar(snapshot.data, _audioPlayer);
+                          },
+                        ),
+                      )
                     ],
                   );
                 },
