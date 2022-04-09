@@ -21,7 +21,7 @@ Widget _lyricText(Duration? duration, Map<Duration, String> lyrics) {
 
 Widget _seekBar(Duration? duration, AudioPlayer audioPlayer) {
   return Slider(
-      max: audioPlayer.duration?.inSeconds.toDouble() ?? double.infinity,
+      max: audioPlayer.duration?.inSeconds.toDouble() ?? 0,
       value: duration?.inSeconds.toDouble() ?? 0,
       onChanged: (value) =>
           {audioPlayer.seek(Duration(seconds: value.toInt()))});
@@ -139,6 +139,7 @@ class CustomAudioPlayer extends StatefulWidget {
 
 class _CustomAudioPlayerState extends State<CustomAudioPlayer> {
   late AudioPlayer _audioPlayer;
+  Duration? dur;
 
   Map<Duration, String> _lyrics = {
     Duration(seconds: 0): 'だっだっだ だいじょばない',
@@ -193,7 +194,11 @@ class _CustomAudioPlayerState extends State<CustomAudioPlayer> {
   void initState() {
     super.initState();
     _audioPlayer = AudioPlayer();
-    _audioPlayer.setAsset("assets/audio/cinderella.mp3");
+    _audioPlayer.setAsset("assets/audio/cinderella.mp3").then((value) {
+      // idk solution for init duration, so play pause
+      _audioPlayer.play();
+      _audioPlayer.pause();
+    });
   }
 
   @override
