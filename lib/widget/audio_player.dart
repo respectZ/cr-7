@@ -19,7 +19,10 @@ Widget _lyricText(Duration? duration, Map<Duration, String> lyrics) {
       break;
     }
   }
-  return Text(lyric);
+  return Text(
+    lyric,
+    textAlign: TextAlign.center,
+  );
 }
 
 Widget _seekBar(Duration? duration, AudioPlayer audioPlayer) {
@@ -178,53 +181,95 @@ class _CustomAudioPlayerState extends State<CustomAudioPlayer> {
   Duration? dur;
 
   Map<Duration, String> _lyrics = {
-    Duration(seconds: 0): 'だっだっだ だいじょばない',
-    Duration(seconds: 2, milliseconds: 777): 'ちょっと蛹になって出直すわ',
-    Duration(seconds: 6, milliseconds: 200): '',
-    Duration(seconds: 18, milliseconds: 300): '愛とか恋とか全部くだらない',
-    Duration(seconds: 19, milliseconds: 900): 'がっかりするだけ ダメを知るだけ',
-    Duration(seconds: 21, milliseconds: 800): 'あたし馬鹿ね ダサい逆走じゃん',
-    Duration(seconds: 24, milliseconds: 300): 'ホントのところはあなたにモテたい',
-    Duration(seconds: 26, milliseconds: 0): '失敗するのにビビってるだけ',
-    Duration(seconds: 27, milliseconds: 710): '加工なしの厳しめの条件じゃ',
-    Duration(seconds: 30, milliseconds: 990): 'ちょっと こんな時どんな顔すればいいか教えてほしい: ',
-    Duration(seconds: 37, milliseconds: 0): 'ちょっと 「愛してる」だとかそんな言葉で壊れてみたい',
-    Duration(seconds: 42, milliseconds: 520): 'じれったいな ハロー残念なあたし',
-    Duration(seconds: 46, milliseconds: 920): '困っちゃってイヤイヤ',
-    Duration(seconds: 48, milliseconds: 900): 'じれったいな 決まんないの前髪が',
-    Duration(seconds: 52, milliseconds: 820): '怒っちゃってイライラ',
-    Duration(seconds: 54, milliseconds: 820): 'だっだっだ 大好きは',
-    Duration(seconds: 57, milliseconds: 320): 'もっと可愛くなって 言いたいのに',
-    Duration(minutes: 1, seconds: 1, milliseconds: 20): 'だっだっだ だいじょばない',
-    Duration(minutes: 1, seconds: 3, milliseconds: 420): 'ちょっと蛹になって出直すわ',
-    Duration(minutes: 1, seconds: 7, milliseconds: 0): 'あ...えと、いや...なんでもない',
-    Duration(minutes: 1, seconds: 10, milliseconds: 110): '言いたいこと言えたことないや',
-    Duration(minutes: 1, seconds: 13, milliseconds: 70): '目と目 止められないの',
-    Duration(minutes: 1, seconds: 16, milliseconds: 70): '逸らしちゃって まーた自己嫌悪',
-    Duration(minutes: 1, seconds: 19, milliseconds: 120): 'じれったいな ハロー残念なあたし',
-    Duration(minutes: 1, seconds: 23, milliseconds: 120): '困っちゃってイヤイヤ',
-    Duration(minutes: 1, seconds: 25, milliseconds: 120): 'じれったいな 入んないのこの靴が',
-    Duration(minutes: 1, seconds: 29, milliseconds: 320): '怒っちゃってイライラ',
-    Duration(minutes: 1, seconds: 31, milliseconds: 620): '鐘が鳴って 灰になって',
-    Duration(minutes: 1, seconds: 34, milliseconds: 520): 'あたしまだ帰りたくないや',
-    Duration(minutes: 1, seconds: 37, milliseconds: 420): '××コースへ 飛び込んでみたいから',
-    Duration(minutes: 1, seconds: 42, milliseconds: 20): '',
-    Duration(minutes: 1, seconds: 43, milliseconds: 320): 'じれったいな ハロー残念なあたし',
-    Duration(minutes: 1, seconds: 47, milliseconds: 620): '困っちゃってイヤイヤ',
-    Duration(minutes: 1, seconds: 49, milliseconds: 420): 'じれったいな 決まんないの前髪が',
-    Duration(minutes: 1, seconds: 53, milliseconds: 620): '怒っちゃってる',
-    Duration(minutes: 1, seconds: 55, milliseconds: 220): 'じれったいな 夜行前のシンデレラ',
-    Duration(minutes: 2, seconds: 0, milliseconds: 20): 'ビビっちゃってフラフラ',
-    Duration(minutes: 2, seconds: 1, milliseconds: 620): 'じれったいな ハローをくれたあなたと',
-    Duration(minutes: 2, seconds: 5, milliseconds: 920): '踊っちゃってクラクラ',
-    Duration(minutes: 2, seconds: 7, milliseconds: 720): 'だっだっだ 大好きは',
-    Duration(minutes: 2, seconds: 10, milliseconds: 280): 'もっと可愛くなって 言いたいのに',
-    Duration(minutes: 2, seconds: 14, milliseconds: 20): 'だっだっだ だいじょばない',
-    Duration(minutes: 2, seconds: 16, milliseconds: 220): 'ちょっとお待ちになって王子様',
-    Duration(minutes: 2, seconds: 19, milliseconds: 720): 'だっだっだ ダメよ 順序とか',
-    Duration(minutes: 2, seconds: 22, milliseconds: 220): 'もっと仲良くなって そうじゃないの?',
-    Duration(minutes: 2, seconds: 26, milliseconds: 20): 'だっだっだ まじでだいじょばない',
-    Duration(minutes: 2, seconds: 28, milliseconds: 520): 'やっぱ蛹になって出直すわ',
+    Duration(seconds: 0): 'Pada jaman dahuku kala',
+    Duration(seconds: 2, milliseconds: 600):
+        'Ada sebuah daerah yang damai dan sejahtera',
+    Duration(seconds: 5, milliseconds: 900):
+        'Daerah tersebut bernama soppeng, sulawesi selatan',
+    Duration(seconds: 9, milliseconds: 600):
+        'Suatu ketika daerah tersebuh kedatangan seorang nenek berambut putih',
+    Duration(seconds: 14, milliseconds: 950):
+        'nenek tua itu memiliki badan setengah membungkuk, memakai sarung dan kemeja batik',
+    Duration(seconds: 21, milliseconds: 420):
+        'Tidak disangka ternyata nenek tua tersebut adalah siluman yang suka menculik anak-anak',
+    Duration(seconds: 27, milliseconds: 630):
+        'maka nenek tersebut memiliki julukan pak ande yang berarti makan',
+    Duration(seconds: 33, milliseconds: 580):
+        'Suatu hari, ada kakak beradik yang bermain sampai malam',
+    Duration(seconds: 37, milliseconds: 625):
+        'sang ibu menyuruh mereka segera masuk, tetapi mereka tetap bermain',
+    Duration(seconds: 43, milliseconds: 100):
+        'Kedua anak itupun diculik nenek pak ande',
+    Duration(seconds: 46, milliseconds: 320):
+        'Sang ibu berteriak minta pertolongan kepada warga',
+    Duration(seconds: 49, milliseconds: 669):
+        'Nenek pak ande sudah menghilang bersama kedua anaknya',
+    Duration(seconds: 54, milliseconds: 550):
+        'warga terus mencari, namun tidak jua ditemukan',
+    Duration(seconds: 59, milliseconds: 700):
+        'Esok harinya, warga berkumpul mencari solusi',
+    Duration(minutes: 1, seconds: 4, milliseconds: 250):
+        'Seorang pemuda bernama La Beddu yang cerdik nan pandai',
+    Duration(minutes: 1, seconds: 8, milliseconds: 220):
+        'memiliki usul untuk mengalahkan nenek pak ande',
+    Duration(minutes: 1, seconds: 11, milliseconds: 820):
+        'La Beddu meminta warga untuk menyiapkan belut-',
+    Duration(minutes: 1, seconds: 15, milliseconds: 288):
+        'kura-kura, garu,busa sabun, kulit rebung, dan sebuah batu besar',
+    Duration(minutes: 1, seconds: 21, milliseconds: 056):
+        'semua hewan dan benda tersebut terkumpul di rumah La Beddu',
+    Duration(minutes: 1, seconds: 25, milliseconds: 190): 'Malam haripun tiba',
+    Duration(minutes: 1, seconds: 27, milliseconds: 280): '',
+    Duration(minutes: 1, seconds: 27, milliseconds: 750):
+        'seluruh warga mematikan lampu kecuali lampu rumah la beddu',
+    Duration(minutes: 1, seconds: 32, milliseconds: 250):
+        'nenek pak ande pun tertarik memasuki rumah tersebut',
+    Duration(minutes: 1, seconds: 36, milliseconds: 320): '',
+    Duration(minutes: 1, seconds: 36, milliseconds: 980):
+        'Sampai di dalam rumah-',
+    Duration(minutes: 1, seconds: 38, milliseconds: 350):
+        'nenek pak ande bertemu dengan la beddu yang telah menyamar menjadi raksasa',
+    Duration(minutes: 1, seconds: 44, milliseconds: 350): '',
+    Duration(minutes: 1, seconds: 44, milliseconds: 890):
+        'busa menyerupai air liur-',
+    Duration(minutes: 1, seconds: 46, milliseconds: 550):
+        'dan kulit rebung digunakan sebagai terompet pembesar suara',
+    Duration(minutes: 1, seconds: 51, milliseconds: 150): '',
+    Duration(minutes: 1, seconds: 51, milliseconds: 820):
+        'Nenek pak ande ketakutan',
+    Duration(minutes: 1, seconds: 53, milliseconds: 450):
+        'kemudian dengan terburu-buru berlari menuruni tangga',
+    Duration(minutes: 1, seconds: 56, milliseconds: 900): '',
+    Duration(minutes: 1, seconds: 57, milliseconds: 350):
+        'Warga telah menyiapkan belut ditangga yang membuat nenek pak ande terjatuh',
+    Duration(minutes: 2, seconds: 03, milliseconds: 190):
+        'dan kepalanya terantuk batu besar',
+    Duration(minutes: 2, seconds: 06, milliseconds: 280): '',
+    Duration(minutes: 2, seconds: 07, milliseconds: 380):
+        'Seluruh warga keluar dan mengepung sang siluman',
+    Duration(minutes: 2, seconds: 11, milliseconds: 280): '',
+    Duration(minutes: 2, seconds: 11, milliseconds: 850):
+        'Nenek pak ande pun terluka parah',
+    Duration(minutes: 2, seconds: 14, milliseconds: 180):
+        'dan segera menggunakan kesaktiannya yang tersisa',
+    Duration(minutes: 2, seconds: 17, milliseconds: 920): '',
+    Duration(minutes: 2, seconds: 18, milliseconds: 290):
+        'Sejak saat itu,\nnenek pak ande sudah tidak pernah muncul kembali',
+    Duration(minutes: 2, seconds: 22, milliseconds: 680): 'warga menjadi aman',
+    Duration(minutes: 2, seconds: 25, milliseconds: 020):
+        'dan cerita itu turun menurun menjadi pesan untuk anak-anak dan cucu',
+    // Duration(minutes: 2, seconds: 5, milliseconds: 920): '',
+    // Duration(minutes: 2, seconds: 7, milliseconds: 720): 'PESAN MORAL',
+    // Duration(minutes: 2, seconds: 10, milliseconds: 280):
+    //     'Turutilah kata kata orang tua',
+    // Duration(minutes: 2, seconds: 14, milliseconds: 20):
+    //     'Bermain ada waktunya, jangan berlebihan apalagi kalau sudah malam',
+    // Duration(minutes: 2, seconds: 16, milliseconds: 220):
+    //     'sebaiknya masuk rumah berkumpul bersama keluarga tercinta',
+    // Duration(minutes: 2, seconds: 19, milliseconds: 720): 'だっだっだ ダメよ 順序とか',
+    // Duration(minutes: 2, seconds: 22, milliseconds: 220): 'もっと仲良くなって そうじゃないの?',
+    // Duration(minutes: 2, seconds: 26, milliseconds: 20): 'だっだっだ まじでだいじょばない',
+    // Duration(minutes: 2, seconds: 28, milliseconds: 520): 'やっぱ蛹になって出直すわ',
   };
   @override
   void initState() {
@@ -236,9 +281,9 @@ class _CustomAudioPlayerState extends State<CustomAudioPlayer> {
     //   _audioPlayer.pause();
     // });
     // Workaround buat fix API 30 keatas, gk bisa langsung load file dari asset
-    rootBundle.load("assets/audio/cinderella.mp3").then((bytes) {
+    rootBundle.load("assets/audio/nenek_pak_ande.mp3").then((bytes) {
       final dir = getApplicationDocumentsDirectory().then((dir) {
-        var file = File("${dir.path}/cinderella.mp3");
+        var file = File("${dir.path}/nenek_pak_ande.mp3");
         file.writeAsBytesSync(bytes.buffer.asUint8List());
         _audioPlayer.setFilePath(file.path);
       });
