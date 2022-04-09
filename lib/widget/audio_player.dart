@@ -97,12 +97,24 @@ Widget _playerButton(PlayerState? playerState, AudioPlayer audioPlayer) {
   if (state == ProcessingState.loading) {
     return CircularProgressIndicator();
   } else if (state == ProcessingState.buffering) {
-    return InkWell(
-      customBorder: CircleBorder(),
-      child: Icon(
-        Icons.pause_circle_filled_rounded,
-        size: 64.0,
-      ),
+    return Row(
+      children: [
+        InkWell(
+          customBorder: CircleBorder(),
+          child: Icon(
+            Icons.pause_circle_filled_rounded,
+            size: 64.0,
+          ),
+        ),
+        InkWell(
+          onTap: () => {audioPlayer.pause(), audioPlayer.seek(Duration.zero)},
+          customBorder: CircleBorder(),
+          child: Icon(
+            Icons.stop_circle_rounded,
+            size: 64.0,
+          ),
+        ),
+      ],
     );
   } else if (!audioPlayer.playing) {
     return InkWell(
@@ -114,13 +126,25 @@ Widget _playerButton(PlayerState? playerState, AudioPlayer audioPlayer) {
       ),
     );
   } else if (state != ProcessingState.completed) {
-    return InkWell(
-      onTap: audioPlayer.pause,
-      customBorder: CircleBorder(),
-      child: Icon(
-        Icons.pause_circle_filled_rounded,
-        size: 64.0,
-      ),
+    return Row(
+      children: [
+        InkWell(
+          onTap: audioPlayer.pause,
+          customBorder: CircleBorder(),
+          child: Icon(
+            Icons.pause_circle_filled_rounded,
+            size: 64.0,
+          ),
+        ),
+        InkWell(
+          onTap: () => {audioPlayer.pause(), audioPlayer.seek(Duration.zero)},
+          customBorder: CircleBorder(),
+          child: Icon(
+            Icons.stop_circle_rounded,
+            size: 64.0,
+          ),
+        ),
+      ],
     );
   } else {
     return InkWell(
