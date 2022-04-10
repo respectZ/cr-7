@@ -10,6 +10,64 @@ String getDuration(Duration duration) {
   return "${twoDigits(duration.inSeconds ~/ 60)}:${twoDigits(duration.inSeconds % 60)}:${twoDigits(duration.inMilliseconds % 1000)}";
 }
 
+void _popupAnggota(BuildContext context) {
+  showDialog<String>(
+    context: context,
+    builder: (BuildContext context) => AlertDialog(
+      title: const Text('Kelompok PBM 7'),
+      content: Row(
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text("Riezqu Ibnanta"),
+              Text("Imro'atul Fitriyah"),
+              Text("Mikli Oktarianto"),
+              Text("Nurita Indah Amalia"),
+              Text("Laida Lavenia. H"),
+            ],
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(
+                "202410102089",
+                style: TextStyle(color: Colors.indigoAccent[200]),
+              ),
+              Text(
+                "202410102032",
+                style: TextStyle(color: Colors.indigoAccent[200]),
+              ),
+              Text(
+                "202410102042",
+                style: TextStyle(color: Colors.indigoAccent[200]),
+              ),
+              Text(
+                "202410102019",
+                style: TextStyle(color: Colors.indigoAccent[200]),
+              ),
+              Text(
+                "202410102041",
+                style: TextStyle(color: Colors.indigoAccent[200]),
+              ),
+            ],
+          ),
+        ],
+      ),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () => Navigator.pop(context, 'Cancel'),
+          child: const Text('Cancel'),
+        ),
+        TextButton(
+          onPressed: () => Navigator.pop(context, 'OK'),
+          child: const Text('OK'),
+        ),
+      ],
+    ),
+  );
+}
+
 Widget _lyricText(Duration? duration, Map<Duration, String> lyrics) {
   String lyric = "";
   for (var e in lyrics.entries) {
@@ -312,6 +370,10 @@ class _CustomAudioPlayerState extends State<CustomAudioPlayer> {
               child: Stack(
                 // mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  ElevatedButton(
+                    child: Text("Anggota"),
+                    onPressed: () => _popupAnggota(context),
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
