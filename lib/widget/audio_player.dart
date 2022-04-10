@@ -285,7 +285,10 @@ class _CustomAudioPlayerState extends State<CustomAudioPlayer> {
       final dir = getApplicationDocumentsDirectory().then((dir) {
         var file = File("${dir.path}/nenek_pak_ande.mp3");
         file.writeAsBytesSync(bytes.buffer.asUint8List());
-        _audioPlayer.setFilePath(file.path);
+        _audioPlayer.setFilePath(file.path).then((value) {
+          _audioPlayer.play();
+          _audioPlayer.pause();
+        });
       });
     });
   }
@@ -303,11 +306,21 @@ class _CustomAudioPlayerState extends State<CustomAudioPlayer> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           // subtitle
-          StreamBuilder<Duration>(
-            stream: _audioPlayer.positionStream,
-            builder: (context, snapshot) {
-              return _lyricText(snapshot.data, _lyrics);
-            },
+          Expanded(
+            child: Container(
+              margin: EdgeInsets.fromLTRB(12.0, 0.0, 12.0, 0.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  StreamBuilder<Duration>(
+                    stream: _audioPlayer.positionStream,
+                    builder: (context, snapshot) {
+                      return _lyricText(snapshot.data, _lyrics);
+                    },
+                  ),
+                ],
+              ),
+            ),
           ),
           // audio controls
           Column(
