@@ -308,15 +308,30 @@ class _CustomAudioPlayerState extends State<CustomAudioPlayer> {
           // subtitle
           Expanded(
             child: Container(
-              margin: EdgeInsets.fromLTRB(12.0, 0.0, 12.0, 0.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+              margin: EdgeInsets.fromLTRB(12.0, 12.0, 12.0, 0.0),
+              child: Stack(
+                // mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  StreamBuilder<Duration>(
-                    stream: _audioPlayer.positionStream,
-                    builder: (context, snapshot) {
-                      return _lyricText(snapshot.data, _lyrics);
-                    },
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Nenek Pak Ande",
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.indigo[300],
+                        ),
+                      ),
+                    ],
+                  ),
+                  Center(
+                    child: StreamBuilder<Duration>(
+                      stream: _audioPlayer.positionStream,
+                      builder: (context, snapshot) {
+                        return _lyricText(snapshot.data, _lyrics);
+                      },
+                    ),
                   ),
                 ],
               ),
